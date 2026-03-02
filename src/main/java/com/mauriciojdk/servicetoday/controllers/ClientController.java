@@ -1,7 +1,10 @@
 package com.mauriciojdk.servicetoday.controllers;
 
+import com.mauriciojdk.servicetoday.dtos.ClientDTO;
 import com.mauriciojdk.servicetoday.models.Client;
 import com.mauriciojdk.servicetoday.repositories.ClientRepository;
+import com.mauriciojdk.servicetoday.services.ClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,17 +16,12 @@ import java.util.UUID;
 @RequestMapping("client")
 public class ClientController {
 
-    private ClientRepository clientRepository;
-
-    public ClientController(ClientRepository clientRepository) {
-        this.clientRepository = clientRepository;
-    }
+    @Autowired
+    private ClientService clientService;
 
     @PostMapping
-    public Client salvar(@RequestBody Client client) {
-        System.out.println("Salvando usuário " + client);
-        clientRepository.save(client);
-        return client;
+    public Client salvar(@RequestBody ClientDTO dto) {
+        return clientService.createClient(dto);
     }
 
 }
